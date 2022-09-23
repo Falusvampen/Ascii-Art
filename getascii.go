@@ -8,8 +8,8 @@ import (
 
 func GetCharacter(c rune, fontArray []string) []string {
 	var lines []string
-	for i := 0; i < 8; i++ {
-		lines = append(lines, fontArray[i][299:])
+	for i := 0; i <= 7; i++ {
+		lines = append(lines, fontArray[299-1:][i])
 	}
 	return lines
 }
