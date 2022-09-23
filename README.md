@@ -57,6 +57,4 @@ Type a string into the terminal and watch the text turn into ascii art.
 
 ## 🎉 References and inspiration <a name = "references"></a>
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
+- [ASCII Table](https://www.alpharithms.com/ascii-table-512119/)
