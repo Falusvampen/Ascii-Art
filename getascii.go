@@ -2,13 +2,20 @@ package asciiart
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 )
 
-func GetCharacter(c rune, font string) {
-	// Get from font file
+func GetCharacter(c rune, fontArray []string) []string {
+	var lines []string
+	for i := 0; i < 8; i++ {
+		lines = append(lines, fontArray[i][299:])
+	}
+	return lines
+}
+
+func GetFont(font string) []string {
+	var fontArray []string
 	file, err := os.Open("../fonts/" + font + ".txt")
 	if err != nil {
 		log.Fatal(err)
@@ -17,10 +24,11 @@ func GetCharacter(c rune, font string) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
+		fontArray = append(fontArray, scanner.Text())
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	return fontArray
 }
