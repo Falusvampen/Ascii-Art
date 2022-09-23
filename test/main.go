@@ -1,5 +1,7 @@
 package main
 
-func main(){
-	
+import "asciiart"
+
+func main() {
+	asciiart.DnaDiff()
 }
