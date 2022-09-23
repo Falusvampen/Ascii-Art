@@ -1,13 +1,9 @@
 package asciiart
 
-import "fmt"
-
-func AsciiPrint(s string) {
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
+func AsciiPrint(s string, font string){
+	// BUILD CHARACTERS
+	for _, c := range s {
+		GetCharacter(c, font)
+	}
+	
 }

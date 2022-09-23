@@ -3,7 +3,6 @@ package main
 import "asciiart"
 
 func main() {
-	asciiart.DnaDiff()
+	asciiart.AsciiPrint("Hello World!", "standard")
+	//asciiart.DnaDiff()
 }
-
-// 
