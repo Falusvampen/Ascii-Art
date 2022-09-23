@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://www.wired.com/wp-content/uploads/archive/images/article/magazine/1606/mf_hiroyuki_ss3_f.jpg" alt="Nice"></a>
+ <img width=200px height=200px src="https://github.com/Falusvampen/Ascii-Art/blob/master/readmephoto.png" alt="Nice"></a>
 </p>
 
 <h3 align="center">Ascii-Art</h3>
