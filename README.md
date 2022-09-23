@@ -27,7 +27,11 @@
 
 ## 🧐 About <a name = "about"></a>
 
-The goal of this project is to convert the users inputed string and output it in the terminal as Ascii art.
+This program convert the users inputed string and output it in the terminal as Ascii art.
+
+The goal of this project is to learn about the following:
+- The Go file system(fs) API
+- Data manipulation
 
 ### Prerequisites
 

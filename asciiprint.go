@@ -1,11 +1,14 @@
 package asciiart
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func AsciiPrint(s string, font string) {
 	// BUILD CHARACTERS
 	fontArray := GetFont(font)
-	charArray := []string{}
+	charArray := initalizeLines(s)
 	for _, c := range s {
 		for i, line := range GetCharacter(c, fontArray) {
 			charArray[i] += line
@@ -17,6 +20,6 @@ func AsciiPrint(s string, font string) {
 }
 
 func initalizeLines(s string) []string {
-
-	//charArray := make([]string, len(s))
+	charArray := make([]string, len(s)+strings.Count(s, "\n"))
+	return charArray
 }
