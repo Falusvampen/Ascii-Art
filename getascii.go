@@ -7,15 +7,16 @@ import (
 )
 
 func GetCharacter(c rune, fontArray []string) []string {
+	charStart := int(c) - 32
 	var lines []string
 	for i := 0; i <= 7; i++ {
-		lines = append(lines, fontArray[299-1:][i])
+		lines = append(lines, fontArray[(charStart)-1:][i])
 	}
 	return lines
 }
 
 func GetFont(font string) []string {
-	var fontArray []string
+	var fontArray = [94][8]string{}
 	file, err := os.Open("../fonts/" + font + ".txt")
 	if err != nil {
 		log.Fatal(err)
@@ -23,7 +24,13 @@ func GetFont(font string) []string {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
+	currentChar := 0
 	for scanner.Scan() {
+
+		if scanner.Text() == "" {
+			currentChar++
+		}
+
 		fontArray = append(fontArray, scanner.Text())
 	}
 
@@ -31,4 +38,5 @@ func GetFont(font string) []string {
 		log.Fatal(err)
 	}
 	return fontArray
+
 }
