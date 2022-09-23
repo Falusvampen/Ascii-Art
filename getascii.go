@@ -24,5 +24,3 @@ func GetCharacter(c rune, font string) {
 		log.Fatal(err)
 	}
 }
-
-func getCharacters
