@@ -18,7 +18,7 @@ var testStrings = []string{
 	"Hello\n\nThere",
 }
 
-func TestAsciiPrint(t *testing.T) {
+func TestAsciiPrint(*testing.T) {
 	for _, test := range testStrings {
 		asciiart.AsciiPrint(test, "standard")
 	}
