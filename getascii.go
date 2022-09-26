@@ -5,16 +5,7 @@ import (
 	"log"
 	"os"
 )
-
-func GetCharacter(c rune, fontArray [95][8]string) []string {
-	charStart := int(c) - 32
-	var lines []string
-	for i := 0; i <= 7; i++ {
-		lines = append(lines, fontArray[charStart][i])
-	}
-	return lines
-}
-
+// 95 is the ammount of characters in the font and 8 is the ammount of lines in the font
 func GetFont(font string) [95][8]string {
 	var fontArray = [95][8]string{}
 	file, err := os.Open("../fonts/" + font + ".txt")
@@ -39,4 +30,13 @@ func GetFont(font string) [95][8]string {
 		log.Fatal(err)
 	}
 	return fontArray
+}
+
+func GetCharacter(c rune, fontArray [95][8]string) []string {
+	charStart := int(c) - 32
+	var lines []string
+	for i := 0; i <= 7; i++ {
+		lines = append(lines, fontArray[charStart][i])
+	}
+	return lines
 }
