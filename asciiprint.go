@@ -16,8 +16,13 @@ func AsciiPrint(s string, font string) {
 				charArray[linePos+len(charArray)-8] += line
 			}
 		} else if s[i] == '\n' {
-			// If it's the first newline in a sequence, add 8 lines, otherwise 1
-			charArray = append(charArray, make([]string, 8)...)
+			// If there is no character after the newline, add 1 line, otherwise add 8
+			if i < len(s)-1 && s[i+1] == ' ' || i == len(s)-1 {
+				charArray = append(charArray, make([]string, 1)...)
+			} else {
+				charArray = append(charArray, make([]string, 8)...)
+			}
+			// If newlines are found in a sequence after the initial, add one line for each
 			if i < len(s)-1 {
 				for j := i; s[j+1] == '\n'; j++ {
 					charArray = append(charArray, make([]string, 1)...)
