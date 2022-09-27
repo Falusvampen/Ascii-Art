@@ -1,9 +1,7 @@
-package main
+package asciiart
 
 import (
 	"testing"
-
-	"asciiart"
 )
 
 var testStrings = []string{
@@ -20,6 +18,6 @@ var testStrings = []string{
 
 func TestAsciiPrint(*testing.T) {
 	for _, test := range testStrings {
-		asciiart.AsciiPrint(test, "standard")
+		AsciiPrint(test, "standard")
 	}
 }

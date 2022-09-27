@@ -9,12 +9,12 @@ import (
 // 95 is the amount of characters in the font and 8 is the amount of lines in the font
 func GetFont(font string) [95][8]string {
 	var fontArray = [95][8]string{}
-	file, err := os.Open("../fonts/" + font + ".txt")
+	file, err := os.Open("fonts/" + font + ".txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
-	
+
 	scanner := bufio.NewScanner(file)
 	currentChar := -1
 	currentLine := 0
