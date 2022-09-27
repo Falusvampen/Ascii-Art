@@ -11,7 +11,7 @@ func GetFont(font string) [95][8]string {
 	var fontArray = [95][8]string{}
 	file, err := os.Open("fonts/" + font + ".txt")
 	if err != nil {
-		log.Fatal(err)
+		defer log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -28,7 +28,7 @@ func GetFont(font string) [95][8]string {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		defer log.Fatal(err)
 	}
 	return fontArray
 }
