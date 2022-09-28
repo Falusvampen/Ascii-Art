@@ -26,6 +26,7 @@ func GetFont(font string) ([95][8]string, error) {
 		}
 	}
 	if err := scanner.Err(); err != nil {
+		file.Close()
 		return [95][8]string{}, err
 	}
 
