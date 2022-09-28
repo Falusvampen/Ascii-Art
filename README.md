@@ -11,23 +11,22 @@
 
 ---
 
-<p align="center"> This is Falusvampen and Kevazys Ascii-Art project made during the first month of the 2 year study at Grit:Lab in Åland Islands.
+<p align="center"> This is Falusvampen and Kevazy's Ascii-Art project made during the first month of the two year study at grit:lab in Åland Islands.
     <br> 
 </p>
 
 ## 📝 Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting_started)
+- [Tests](#tests)
 - [Usage](#usage)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
 - [Authors](#authors)
 - [References](#references)
 
 ## 🧐 About <a name = "about"></a>
 
-This program convert the users inputed string and output it in the terminal as Ascii art.
+This program converts the user's inputted string and outputs it in the terminal as Ascii art.
 
 The goal of this project is to learn about the following:
 - The Go file system(fs) API
@@ -35,7 +34,9 @@ The goal of this project is to learn about the following:
 
 ### Prerequisites
 
-A computer..
+- A computer..
+- [Go](https://go.dev/) 1.19
+
 
 ### Installing
 
@@ -49,9 +50,11 @@ Run the included test files to test every possible scenario and combination.
 
 Type a string into the terminal and watch the text turn into ascii art.
 
+``go run main.go "[input]" [font]``
+
 ## ⛏️ Built Using <a name = "built_using"></a>
 
-- [GO](https://go.dev/) - Programming Language
+- [Go](https://go.dev/) - Programming language
 
 
 ## ✍️ Authors <a name = "authors"></a>
