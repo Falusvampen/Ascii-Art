@@ -5,10 +5,7 @@ import (
 )
 
 func AsciiPrint(s string, font string) {
-	if s == "\n" {
-		fmt.Println()
-		return
-	} else if s == "dnadiff" {
+	if s == "dnadiff" {
 		DnaDiff()
 		return
 	}
@@ -17,7 +14,7 @@ func AsciiPrint(s string, font string) {
 		fmt.Println(err)
 		return
 	}
-	charArray := make([]string, 8)
+	charArray := initializeLines(s)
 
 	// Loop through each character in the string
 	for i := 0; i < len(s); i++ {
@@ -28,25 +25,27 @@ func AsciiPrint(s string, font string) {
 			}
 		} else if s[i] == '\n' {
 			// If there is no character after the newline, add 1 line, otherwise add 8
-			if i < len(s)-1 && s[i+1] == ' ' || i == len(s)-1 || s[i+1] == '\n' {
+			if s[0] == s[i] || i == len(s)-1 || s[i+1] == '\n' {
 				charArray = append(charArray, make([]string, 1)...)
-				println("one line")
 			} else {
 				charArray = append(charArray, make([]string, 8)...)
-				println("eight lines")
-			}
-			// If newlines are found in a sequence after the initial, add one line for each
-			if i < len(s)-1 {
-				for j := i; s[j+1] == '\n'; j++ {
-					charArray = append(charArray, make([]string, 1)...)
-					i++
-				}
 			}
 		} else {
-			fmt.Println("ERROR")
+			fmt.Println("Error: Invalid character")
+			return
 		}
 	}
 	for _, line := range charArray {
 		fmt.Println(line)
 	}
+}
+
+func initializeLines(s string) []string {
+	charArray := make([]string, 0)
+	for _, c := range s {
+		if c >= 32 && c <= 126 {
+			charArray = make([]string, 8)
+		}
+	}
+	return charArray
 }
