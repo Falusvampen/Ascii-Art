@@ -12,7 +12,6 @@ func GetFont(font string) ([95][8]string, error) {
 	if err != nil {
 		return [95][8]string{}, err
 	}
-	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	currentChar := -1
