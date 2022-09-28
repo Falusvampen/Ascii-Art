@@ -12,7 +12,11 @@ func AsciiPrint(s string, font string) {
 		DnaDiff()
 		return
 	}
-	fontArray := GetFont(font)
+	fontArray, err := GetFont(font)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	charArray := make([]string, 8)
 
 	// Loop through each character in the string

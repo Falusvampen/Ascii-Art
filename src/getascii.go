@@ -2,16 +2,15 @@ package asciiart
 
 import (
 	"bufio"
-	"log"
 	"os"
 )
 
 // 95 is the amount of characters in the font and 8 is the amount of lines in the font
-func GetFont(font string) [95][8]string {
+func GetFont(font string) ([95][8]string, error) {
 	var fontArray = [95][8]string{}
 	file, err := os.Open("fonts/" + font + ".txt")
 	if err != nil {
-		defer log.Fatal(err)
+		return [95][8]string{}, err
 	}
 	defer file.Close()
 
@@ -28,9 +27,11 @@ func GetFont(font string) [95][8]string {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		defer log.Fatal(err)
+		return [95][8]string{}, err
 	}
-	return fontArray
+
+	err = file.Close()
+	return fontArray, err
 }
 
 func GetCharacter(c rune, fontArray [95][8]string) []string {
