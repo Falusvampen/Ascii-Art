@@ -8,7 +8,17 @@ import (
 // 95 is the amount of characters in the font and 8 is the amount of lines in the font
 func GetFont(font string) ([95][8]string, error) {
 	var fontArray = [95][8]string{}
-	file, err := os.Open("fonts/" + font + ".txt")
+
+	// If font argument is a shortcut, provide it with a path
+	fonts := []string{"standard", "shadow", "thinkertoy"}
+	for _, f := range fonts {
+		if font == f {
+			font = "fonts/" + f + ".txt"
+			break
+		}
+	}
+
+	file, err := os.Open(font)
 	if err != nil {
 		return [95][8]string{}, err
 	}
