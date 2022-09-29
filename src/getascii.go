@@ -24,13 +24,16 @@ func GetFont(font string) ([95][8]string, error) {
 	}
 
 	scanner := bufio.NewScanner(file)
-	currentChar := -1
+	currentChar := -1 // Font starts with an empty line, so we need to start at -1
 	currentLine := 0
+	// Loop through each line in the font file
 	for scanner.Scan() {
+		// If the line is empty, we are at the start of a new character
 		if scanner.Text() == "" {
 			currentChar++
 			currentLine = 0
 		} else {
+			// Map the line to the current character in the font array
 			fontArray[currentChar][currentLine] = scanner.Text()
 			currentLine++
 		}
@@ -45,10 +48,12 @@ func GetFont(font string) ([95][8]string, error) {
 }
 
 func GetCharacter(c rune, fontArray [95][8]string) []string {
-	charStart := int(c) - 32
+	// Characters start from 32 in the ASCII table, so we need to subtract 32 to get the correct index
+	char := int(c) - 32
 	var lines []string
+	// Loop through each line in the character and add it to the lines array
 	for i := 0; i <= 7; i++ {
-		lines = append(lines, fontArray[charStart][i])
+		lines = append(lines, fontArray[char][i])
 	}
 	return lines
 }
