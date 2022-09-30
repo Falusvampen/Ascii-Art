@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	asciiart "asciiart/src"
+	asciiart "asciiart/ascii-art-output/src"
 )
 
 func main() {
