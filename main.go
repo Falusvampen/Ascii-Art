@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"strings"
 
@@ -9,11 +9,12 @@ import (
 )
 
 func main() {
-	if len(os.Args[1:]) == 1 {
-		asciiart.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), "standard")
-	} else if len(os.Args[1:]) == 2 {
+	if len(os.Args[1:]) == 2 {
 		asciiart.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), os.Args[2])
+	} else if len(os.Args[1:]) == 3 && strings.HasPrefix(os.Args[3], "--output=") {
+		asciiart.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), os.Args[2], os.Args[3])
 	} else {
-		log.Fatal("Usage: go run main.go \"[input]\" [font]")
+		fmt.Println(
+			"Usage: go run . [STRING] [BANNER] [OPTION]\n\nEX: go run . \"something\" standard --output=<fileName.txt>")
 	}
 }
