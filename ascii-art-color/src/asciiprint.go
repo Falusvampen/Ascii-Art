@@ -4,12 +4,12 @@ import (
 	"fmt"
 )
 
-func AsciiPrint(s string, font string) []string {
+func AsciiPrint(s string, color string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
 		return nil
 	}
-	fontArray, err := GetFont(font)
+	fontArray, err := GetFont("standard")
 	if err != nil {
 		fmt.Println(err)
 		return nil
