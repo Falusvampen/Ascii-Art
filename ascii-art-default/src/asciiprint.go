@@ -46,6 +46,7 @@ func initializeLines(s string) []string {
 	for _, c := range s {
 		if c >= 32 && c <= 126 {
 			charArray = make([]string, 8)
+			break
 		}
 	}
 	return charArray
