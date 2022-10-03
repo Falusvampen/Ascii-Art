@@ -4,15 +4,15 @@ import (
 	"fmt"
 )
 
-func AsciiPrint(s string, font string) {
+func AsciiPrint(s string, font string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
-		return
+		return nil
 	}
 	fontArray, err := GetFont(font)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil
 	}
 	charArray := initializeLines(s)
 
@@ -32,12 +32,13 @@ func AsciiPrint(s string, font string) {
 			}
 		} else {
 			fmt.Println("Error: Invalid character")
-			return
+			return nil
 		}
 	}
 	for _, line := range charArray {
 		fmt.Println(line)
 	}
+	return charArray
 }
 
 func initializeLines(s string) []string {

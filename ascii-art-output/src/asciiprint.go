@@ -5,15 +5,15 @@ import (
 	"os"
 )
 
-func AsciiPrint(s string, font string, fileOutput ...string) {
+func AsciiPrint(s string, font string, fileOutput ...string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
-		return
+		return nil
 	}
 	fontArray, err := GetFont(font)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil
 	}
 	charArray := initializeLines(s)
 
@@ -33,7 +33,7 @@ func AsciiPrint(s string, font string, fileOutput ...string) {
 			}
 		} else {
 			fmt.Println("Error: Invalid character")
-			return
+			return nil
 		}
 	}
 	if len(fileOutput) == 1 {
@@ -41,7 +41,7 @@ func AsciiPrint(s string, font string, fileOutput ...string) {
 		file, err := os.Create(fileOutput[0][9:])
 		if err != nil {
 			fmt.Println(err)
-			return
+			return nil
 		}
 		for _, line := range charArray {
 			// Write each line to the file and look for error
@@ -49,7 +49,7 @@ func AsciiPrint(s string, font string, fileOutput ...string) {
 			if err != nil {
 				fmt.Println(err)
 				file.Close()
-				return
+				return nil
 			}
 		}
 		file.WriteString("\n")
@@ -57,7 +57,7 @@ func AsciiPrint(s string, font string, fileOutput ...string) {
 		err = file.Close()
 		if err != nil {
 			fmt.Println(err)
-			return
+			return nil
 		}
 		// Otherwise, print the output to the terminal
 	} else {
@@ -65,6 +65,7 @@ func AsciiPrint(s string, font string, fileOutput ...string) {
 			fmt.Println(line)
 		}
 	}
+	return charArray
 }
 
 func initializeLines(s string) []string {
