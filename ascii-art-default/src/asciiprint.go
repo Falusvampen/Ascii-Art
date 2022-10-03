@@ -25,7 +25,7 @@ func AsciiPrint(s string, font string) {
 			}
 		} else if s[i] == '\n' {
 			// If there is no character after the newline, add 1 line, otherwise add 8
-			if s[0] == s[i] || i == len(s)-1 || s[i+1] == '\n' {
+			if i == 0 || i == len(s)-1 || s[i+1] == '\n' {
 				charArray = append(charArray, make([]string, 1)...)
 			} else {
 				charArray = append(charArray, make([]string, 8)...)
