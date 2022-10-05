@@ -1,4 +1,4 @@
-package asciiart
+package ascii
 
 import (
 	"fmt"
