@@ -1,17 +1,16 @@
 package main
 
 import (
+	"asciiart/src/ascii"
 	"fmt"
 	"os"
 	"strings"
-
-	asciiart "asciiart/ascii-art-color/src"
 )
 
 func main() {
 	SetColor("red")
 	if len(os.Args[1:]) == 2 && strings.HasPrefix(os.Args[3], "--color=") {
-		asciiart.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), os.Args[2])
+		ascii.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), os.Args[2])
 	} else {
 		fmt.Println(
 			"Usage: go run . [STRING] [OPTION]\n\nEX: go run . something --color=<color>")
