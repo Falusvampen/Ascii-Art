@@ -1,4 +1,4 @@
-package ascii
+package asciiart
 
 const (
 	Reset   = "\033[0m"
