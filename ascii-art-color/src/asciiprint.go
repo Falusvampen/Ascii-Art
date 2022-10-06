@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func AsciiPrint(s string, color string) []string {
+func AsciiPrint(s string, colorData string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
 		return nil
@@ -15,6 +15,7 @@ func AsciiPrint(s string, color string) []string {
 		return nil
 	}
 	charArray := initializeLines(s)
+	//colorArray := ColorHandler(colorData)
 
 	// Loop through each character in the string
 	for i := 0; i < len(s); i++ {
