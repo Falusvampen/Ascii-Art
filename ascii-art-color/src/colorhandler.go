@@ -40,10 +40,7 @@ func getColoredCharacters(color string) map[string]string {
 	chars := make(map[string]string)
 	currentColor := ""
 	for i := 0; i < len(color); i++ {
-		if color[i] == ',' {
-			currentColor = ""
-			i++
-		} else if currentColor == "" {
+		if currentColor == "" {
 			for color[i] != ':' && i != len(color)-1 {
 				currentColor += string(color[i])
 				i++
@@ -53,8 +50,11 @@ func getColoredCharacters(color string) map[string]string {
 				chars[currentColor] += string(color[i])
 				i++
 			}
-			chars[currentColor] += string(color[i])
-			break
+			if color[i] == ',' {
+				currentColor = ""
+			} else {
+				chars[currentColor] += string(color[i])
+			}
 		}
 	}
 	return chars
