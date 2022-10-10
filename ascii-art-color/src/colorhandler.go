@@ -5,7 +5,6 @@ import (
 )
 
 const (
-	Reset   = "\033[0m"
 	Black   = "\033[30m"
 	Red     = "\033[31m"
 	Green   = "\033[32m"
@@ -23,7 +22,7 @@ func ColorHandler(s string, color string) []string {
 	}
 	if color == "rainbow" {
 		for i := 0; i < len(s); i++ {
-			colorArray[i] = "\033[3" + strconv.Itoa(i%7+1) + "m"
+			colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
 		}
 	} else {
 		for i := 0; i < len(s); i++ {
