@@ -23,19 +23,17 @@ func setColoredCharacters(s string, color string, colorMap map[string]string, co
 					if strings.HasPrefix(color, "rainbow") {
 						colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
 						break
-					} else {
-						colorArray[i] = convertColor(currentColor)
-						break
 					}
+					colorArray[i] = convertColor(currentColor)
+					break
 				} else if strings.HasSuffix(currentColor, "+pos") {
 					if strings.ContainsAny(strconv.Itoa(i), colorMap[currentColor]) {
 						if strings.HasPrefix(color, "rainbow") {
 							colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
 							break
-						} else {
-							colorArray[i] = convertColor(currentColor)
-							break
 						}
+						colorArray[i] = convertColor(currentColor)
+						break
 					}
 				}
 			}
