@@ -2,10 +2,14 @@ Command format:
     go run . <text> --color=<input>
 
 Color formats:
-    --color=green:2..5 (numbers)
-    --color=blue:'abc' (letters)
-    --color=yellow:1..2,red:'abc' (multiple)
+    --color=green:2-5 (numbers)
+    --color=blue:abc (letters)
+    --color=yellow:1-2,red:abc (multiple)
 
 Command examples:
-    go run . "Hello world!" --color=green:1..4
+    go run . "Hello world!" --color=green:1-4
     // Hell in hello becomes green
+
+Problems:
+    - Color bleeds through to positions with shared numbers
+        If there are 10 characters and number 1 is included in the range, character on position 10 will be colored as well
