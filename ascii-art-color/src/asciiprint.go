@@ -16,6 +16,10 @@ func AsciiPrint(s string, colorData string) []string {
 	}
 	charArray := initializeLines(s)
 	colorArray := ColorHandler(s, colorData)
+	if colorArray == nil {
+		fmt.Println("Error: Invalid color input")
+		return nil
+	}
 
 	// Loop through each character in the string
 	for i := 0; i < len(s); i++ {
