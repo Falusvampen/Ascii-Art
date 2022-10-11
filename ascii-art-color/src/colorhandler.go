@@ -7,37 +7,43 @@ import (
 
 func ColorHandler(s string, color string) []string {
 	colorArray := make([]string, len(s))
-	colorChars := getColoredCharacters(color)
+	colorMap, colorChars := getColoredCharacters(color)
+	println(len(colorMap))
+	println(len(colorChars))
 	if strings.HasPrefix(color, "rainbow") {
 		for i := 0; i < len(s); i++ {
-			if len(colorChars) == 0 {
-				colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
-			} else {
-				for colors := range colorChars {
-					colorArray[i] = "\033[0m"
-					if strings.ContainsAny(string(s[i]), colorChars[colors]) {
+			if strings.ContainsAny(string(s[i]), colorChars) || len(colorChars) == 0 {
+				for currentColor := range colorMap {
+					if strings.ContainsAny(string(s[i]), colorMap[currentColor]) || len(colorChars) == 0 {
 						colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
+						break
 					}
 				}
+			} else {
+				colorArray[i] = "\033[0m"
 			}
 		}
 	} else {
 		for i := 0; i < len(s); i++ {
-			colorArray[i] = "\033[0m"
-			for currentColor := range colorChars {
-				if strings.ContainsAny(string(s[i]), colorChars[currentColor]) {
-					colorArray[i] = convertColor(currentColor)
-					break
+			if strings.ContainsAny(string(s[i]), colorChars) || len(colorChars) == 0 {
+				for currentColor := range colorMap {
+					if strings.ContainsAny(string(s[i]), colorMap[currentColor]) || len(colorChars) == 0 {
+						colorArray[i] = convertColor(currentColor)
+						break
+					}
 				}
+			} else {
+				colorArray[i] = "\033[0m"
 			}
 		}
 	}
 	return colorArray
 }
 
-func getColoredCharacters(color string) map[string]string {
+func getColoredCharacters(color string) (map[string]string, string) {
 	color = strings.ToLower(color)
-	chars := make(map[string]string)
+	mappedChars := make(map[string]string)
+	allChars := ""
 	currentColor := ""
 	for i := 0; i < len(color); i++ {
 		if currentColor == "" {
@@ -45,19 +51,25 @@ func getColoredCharacters(color string) map[string]string {
 				currentColor += string(color[i])
 				i++
 			}
+			if i == len(color)-1 {
+				currentColor += string(color[i])
+			}
+			mappedChars[currentColor] = ""
 		} else {
 			for color[i] != ',' && i != len(color)-1 {
-				chars[currentColor] += string(color[i])
+				mappedChars[currentColor] += string(color[i])
+				allChars += string(color[i])
 				i++
 			}
 			if color[i] == ',' {
 				currentColor = ""
 			} else {
-				chars[currentColor] += string(color[i])
+				mappedChars[currentColor] += string(color[i])
+				allChars += string(color[i])
 			}
 		}
 	}
-	return chars
+	return mappedChars, allChars
 }
 
 func convertColor(color string) string {
