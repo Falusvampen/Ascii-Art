@@ -1,62 +1,46 @@
 package asciiart
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+	"os/exec"
 	"strings"
 	"testing"
 )
 
-var testStrings = []string{
-	"",
-	"\n",
-	"Hello\n",
-	"hello",
-	"HeLlO",
-	"Hello There",
-	"{Hello There}",
-	"Hello\nThere",
-	"Hello\n\nThere",
+// Go test for testing color
+var testColors = []string{
+	"red",
+	"orange",
+	"yellow",
+	"green",
+	"cyan",
+	"blue",
+	"magenta",
+	"white",
+	"black",
+	"rainbow",
 }
 
-func TestAsciiPrint(t *testing.T) {
-	testLines := [9][32]string{}
-	file, err := os.Open("test.txt")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	scanner := bufio.NewScanner(file)
-	currentTest := -1
-	currentLine := 0
-	for scanner.Scan() {
-		if strings.ContainsAny(scanner.Text(), "012345678") {
-			currentTest++
-			currentLine = 0
-		} else {
-			testLines[currentTest][currentLine] = scanner.Text()
-			currentLine++
+// TestColor tests the color function
+func TestColor(t *testing.T) {
+	// Go through the testColors array and test each color
+	for _, color := range testColors {
+		// If the color is rainbow, test it by replacing it with the colors of the rainbow
+		if color == "rainbow" {
+			color = "red,orange,yellow,green,cyan,blue,magenta"
 		}
-	}
-	if err := scanner.Err(); err != nil {
-		file.Close()
-		return
-	}
 
-	err = file.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for i, test := range testStrings {
-		println(i)
-		lines := AsciiPrint(test, "../fonts/standard.txt")
-		for j, line := range lines {
-			if line != testLines[i][j] {
-				t.Fatalf("Test failed: " + line)
-				return
+		// Run the color function and compare the output to the expected output
+		output := exec.Command("go", "run", ".", "Hello, world!", "--color="+color)
+		output.Dir = ".."
+		outputString, _ := output.Output()
+
+		fmt.Println(string(outputString))
+		for _, currentColor := range strings.Split(color, ",") {
+			if !strings.Contains(string(outputString), convertColor(currentColor)) {
+				t.Error("033[31mColor test failed: " + currentColor)
+			} else {
+				fmt.Println("\033[32mColor test passed: " + convertColor(currentColor) + currentColor + "\033[0m")
 			}
 		}
 	}
