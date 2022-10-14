@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// It takes a string and a color string, and returns an array of strings that are the ascii art of the
+// string
 func AsciiPrint(s string, colorData string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
