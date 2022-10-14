@@ -8,6 +8,11 @@ import (
 )
 
 func main() {
+	// Checking if the user has inputted a color option. If they have, it will check if the color option
+	// is rainbow. If it is, it will change it to the colors of the rainbow. If not, it will print the
+	// string in the color the user has inputted. If the user has not inputted a color option, it will
+	// print the usage.
+
 	if len(os.Args[1:]) == 2 && strings.HasPrefix(os.Args[2], "--color=") {
 		if os.Args[2] == "--color=rainbow" {
 			os.Args[2] = "--color=red,orange,yellow,green,cyan,blue,magenta"
