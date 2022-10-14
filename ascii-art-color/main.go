@@ -22,6 +22,15 @@ func main() {
 		if len(os.Args[1:]) == 0 {
 			os.Args = append(os.Args, "dnadiff")
 		}
-		fmt.Println("Usage: go run . \"" + os.Args[1] + "\" --color=<input>\n\nColor formats:\n--color=green:2-5 (positions)\n--color=blue:abc (letters)\n--color=yellow:1-2,red:abc (multiple)")
+		// Array instead of single string for better readability
+		usageText := []string{
+			"Usage: go run . \"" + os.Args[1] + "\" --color=<input>\n\n",
+			"Colors: red, orange, yellow, green, cyan, blue, magenta, white, black, rainbow, 0-255\n\n",
+			"Color formats:\n",
+			"--color=green:2-5 (positions)\n",
+			"--color=blue:abc (characters)\n",
+			"--color=yellow:1-2,red:abc (multiple)\n",
+		}
+		fmt.Println(strings.Join(usageText, ""))
 	}
 }
