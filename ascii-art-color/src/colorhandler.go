@@ -5,94 +5,123 @@ import (
 	"strings"
 )
 
+// It splits the color string into pairs of color:characters, sorts the pairs, and then loops through
+// each pair to set the color of the characters
 func ColorHandler(s string, color string) []string {
+	// Initialize array to store color positions
 	colorArray := make([]string, len(s))
-	colorMap, colorChars := getColoredCharacters(color)
-	if colorMap == nil {
-		return nil
+
+	// Splits the color string into pairs of color:characters
+	colorPairs := strings.Split(color, ",")
+	colorPairs = sortColorPairs(colorPairs)
+
+	// Loop through each set of colors and their character pair
+	for _, pair := range colorPairs {
+		currentColor, characters := "", ""
+
+		// Splits the color:characters pair into color and characters
+		if strings.Contains(pair, ":") {
+			currentColor = strings.Split(pair, ":")[0]
+			if convertColor(currentColor) == "Invalid color" {
+				return nil
+			}
+			characters = strings.Split(pair, ":")[1]
+		} else {
+			currentColor = pair
+			if convertColor(currentColor) == "Invalid color" {
+				return nil
+			}
+		}
+
+		if characters == "" {
+			// If no characters are specified, color the entire string
+			colorArray = setFullColor(s, currentColor, colorArray, colorPairs)
+		} else {
+			// If characters are specified, color them
+			colorArray = setSpecificColor(s, characters, currentColor, colorArray)
+		}
 	}
-	colorArray = setColoredCharacters(s, color, colorMap, colorChars, colorArray)
-	return colorArray
+
+	return finalizeColor(colorArray)
 }
 
-func setColoredCharacters(s string, color string, colorMap map[string]string, colorChars string, colorArray []string) []string {
-	for i := 0; i < len(s); i++ {
-		if strings.ContainsAny(string(s[i]), colorChars) || strings.ContainsAny(strconv.Itoa(i), colorChars) || len(colorChars) == 0 {
-			for currentColor := range colorMap {
-				if strings.ContainsAny(string(s[i]), colorMap[currentColor]) || len(colorChars) == 0 {
-					if strings.HasPrefix(color, "rainbow") {
-						colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
-						break
-					}
-					colorArray[i] = convertColor(currentColor)
-					break
-				} else if strings.HasSuffix(currentColor, "+pos") {
-					if strings.ContainsAny(strconv.Itoa(i), colorMap[currentColor]) {
-						if strings.HasPrefix(color, "rainbow") {
-							colorArray[i] = "\033[3" + strconv.Itoa(i%6+1) + "m"
-							break
-						}
-						colorArray[i] = convertColor(currentColor)
-						break
-					}
-				}
-			}
+// It sorts the color pairs from full colors to specific colors
+func sortColorPairs(colorPairs []string) []string {
+	// Sort the color pairs from full colors to specific colors
+	fullColors := []string{}
+	specificColors := []string{}
+	for _, pair := range colorPairs {
+		if strings.Contains(pair, ":") {
+			specificColors = append(specificColors, pair)
 		} else {
+			fullColors = append(fullColors, pair)
+		}
+	}
+	return append(fullColors, specificColors...)
+}
+
+// Add the reset color to every empty position
+func finalizeColor(colorArray []string) []string {
+	// Add the reset color to every empty position
+	for i := range colorArray {
+		if colorArray[i] == "" {
 			colorArray[i] = "\033[0m"
 		}
 	}
 	return colorArray
 }
 
-func getColoredCharacters(color string) (map[string]string, string) {
-	mappedChars := make(map[string]string)
-	allChars := ""
-	colorPairs := []string{}
-	// Splits the color string into pairs of color:characters
-	if strings.Contains(color, ",") {
-		colorPairs = strings.Split(color, ",")
-	} else {
-		// colorPairs = now contains a single pair of color:characters (colorPairs[0])
-		colorPairs = append(colorPairs, color)
-	}
-	// Loop through each set of colors and their character pair
-	for _, v := range colorPairs {
-		currentColor, characters := "", ""
-		// Splits the color:characters pair into color and characters
-		if strings.Contains(v, ":") {
-			currentColor = strings.Split(v, ":")[0]
-			if convertColor(currentColor) == "Invalid color" {
-				return nil, ""
-			}
-			characters = strings.Split(v, ":")[1]
-		} else {
-			currentColor = v
-		}
-		// If the characters consist of numbers, then the color is applied to the characters at the specified positions
-		if strings.ContainsAny(characters, "0123456789") {
-			if strings.Contains(characters, "-") {
-				nums := strings.Split(characters, "-")
-				num1, num2 := atoi(nums[0]), atoi(nums[1])
-				for i := num1; i <= num2; i++ {
-					mappedChars[currentColor+"+pos"] += strconv.Itoa(i)
-					allChars += strconv.Itoa(i)
-				}
-			} else {
-				println(characters)
-				mappedChars[currentColor+"+pos"] += characters
-				allChars += characters
-			}
-		} else {
-			// If the characters are not numbers, then the color is applied to the characters
-			mappedChars[currentColor] = characters
-			allChars += characters
+func setFullColor(s string, currentColor string, colorArray []string, colorPairs []string) []string {
+	// Get all colorPairs that do not include ':' and put them into a new colorPairs
+	fullColors := []string{}
+	for _, pair := range colorPairs {
+		if !strings.Contains(pair, ":") {
+			fullColors = append(fullColors, pair)
 		}
 	}
-	return mappedChars, allChars
+	// If the characters are empty, then the color is applied to the entire string
+	for i := range s {
+		if len(fullColors) > 1 {
+			// If there are multiple colors, then the color is based on the position of the character
+			colorArray[i] = convertColor(fullColors[i%len(fullColors)])
+		} else {
+			colorArray[i] = convertColor(currentColor)
+		}
+	}
+	return colorArray
 }
 
+// If the characters are a range of positions, then the color is applied to the characters at the
+// specified positions, otherwise the color is applied to the specific characters
+func setSpecificColor(s string, characters string, currentColor string, colorArray []string) []string {
+	// If the characters consist of numbers, then the color is applied to the characters at the specified positions
+	if strings.ContainsAny(characters, "0123456789") && strings.Contains(characters, "-") && !strings.ContainsAny(characters, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+		nums := strings.Split(characters, "-")
+		num1, num2 := atoi(nums[0])-1, atoi(nums[1])-1
+		// Prevent num2 from going out of bounds
+		if num2 > len(s) {
+			num2 = len(s) - 1
+		}
+		for i := num1; i <= num2; i++ {
+			colorArray[i] = convertColor(currentColor)
+		}
+	} else {
+		// If the characters are not a range of positions, then the color is applied to the specific characters
+		for i := range s {
+			if strings.Contains(characters, string(s[i])) {
+				colorArray[i] = convertColor(currentColor)
+			}
+		}
+	}
+	return colorArray
+}
+
+// If the color is a number, return the color code for that number. If the color is a string, return
+// the color code for that string
 func convertColor(color string) string {
-	color = strings.TrimSuffix(color, "+pos")
+	if strings.ContainsAny(color, "0123456789") && !strings.Contains(color, "-)") && !strings.ContainsAny(color, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+		return "\033[38;5;" + color + "m"
+	}
 	switch strings.ToLower(color) {
 	case "black":
 		return "\033[30m"
@@ -110,14 +139,16 @@ func convertColor(color string) string {
 		return "\033[36m"
 	case "white":
 		return "\033[37m"
-	case "rainbow":
-		return ""
+	case "orange":
+		return "\033[38;5;208m"
 	default:
 		return "Invalid color"
 	}
 }
 
-func atoi(s string) int {
+// It takes a string and returns an integer
+
+func atoi(s string) int { // our little pet
 	i, _ := strconv.Atoi(s)
 	return i
 }
