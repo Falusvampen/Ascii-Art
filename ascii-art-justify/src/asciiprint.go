@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func AsciiPrint(s string, font string) []string {
+func AsciiPrint(s string, font string, align string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
 		return nil
