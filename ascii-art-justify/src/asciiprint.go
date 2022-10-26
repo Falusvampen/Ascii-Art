@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func AsciiPrint(s string, font string, align string) []string {
+func AsciiPrint(align string, s string, font string) []string {
 	if s == "dnadiff" {
 		DnaDiff()
 		return nil
@@ -15,7 +15,14 @@ func AsciiPrint(s string, font string, align string) []string {
 		return nil
 	}
 	charArray := initializeLines(s)
-
+	spaceArray := SpaceHandler(align, s, fontArray)
+	if spaceArray == nil {
+		fmt.Println("Error: Invalid alignment")
+		return nil
+	}
+	for i, v := range spaceArray {
+		s = s[:i] + v + s[i:]
+	}
 	// Loop through each character in the string
 	for i := 0; i < len(s); i++ {
 		// Get the valid character from the font
