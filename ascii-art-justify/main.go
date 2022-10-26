@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	if len(os.Args[1:]) == 3 {
-		asciiart.AsciiPrint(strings.ReplaceAll(os.Args[1], `\n`, "\n"), os.Args[2], os.Args[3])
+	if len(os.Args[1:]) == 3 && strings.HasPrefix(os.Args[1], "--align=") {
+		asciiart.AsciiPrint(os.Args[1][8:], strings.ReplaceAll(os.Args[2], `\n`, "\n"), os.Args[3])
 	} else {
-		fmt.Println("Usage: go run . [STRING] [BANNER] [OPTION]\n\nExample: go run . something standard --align=right")
+		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nExample: go run . --align=right something standard")
 	}
 }
