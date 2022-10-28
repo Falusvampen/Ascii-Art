@@ -15,14 +15,7 @@ func AsciiPrint(align string, s string, font string) []string {
 		return nil
 	}
 	charArray := initializeLines(s)
-	spaceArray := SpaceHandler(align, s, fontArray)
-	if spaceArray == nil {
-		fmt.Println("Error: Invalid alignment")
-		return nil
-	}
-	for i, v := range spaceArray {
-		s = s[:i] + v + s[i:]
-	}
+
 	// Loop through each character in the string
 	for i := 0; i < len(s); i++ {
 		// Get the valid character from the font
@@ -42,7 +35,10 @@ func AsciiPrint(align string, s string, font string) []string {
 			return nil
 		}
 	}
+	// Add the spaces to the charArray
+	charArray = SpaceHandler(align, charArray, fontArray)
 	for _, line := range charArray {
+		// Print final result
 		fmt.Println(line)
 	}
 	return charArray
