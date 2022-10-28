@@ -36,7 +36,7 @@ func AsciiPrint(align string, s string, font string) []string {
 		}
 	}
 	// Add the spaces to the charArray
-	charArray = SpaceHandler(align, charArray, fontArray)
+	charArray = SpaceHandler(align, charArray)
 	for _, line := range charArray {
 		// Print final result
 		fmt.Println(line)
