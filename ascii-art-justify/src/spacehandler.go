@@ -5,11 +5,12 @@ import (
 	"strings"
 )
 
-func SpaceHandler(align string, charArray []string, fontArray [95][8]string) []string {
+func SpaceHandler(align string, charArray []string) []string {
 	// Get the terminal size
 	_, cols := GetTermSize()
 	// Get the length of the string
 	length := getLength(charArray)
+	getWords(charArray)
 	// If the string is too long, return nil
 	if length > cols {
 		fmt.Println("Error: String too long")
@@ -33,9 +34,6 @@ func SpaceHandler(align string, charArray []string, fontArray [95][8]string) []s
 					charArray[i] = " " + charArray[i]
 				}
 			case "justify":
-				// Separate words from charArray and remove spaces, then get new total length without spaces
-				words := strings.Fields(strings.Join(charArray, ""))
-				length = getLength(words)
 
 			default:
 				fmt.Println("Error: Invalid alignment")
@@ -44,6 +42,29 @@ func SpaceHandler(align string, charArray []string, fontArray [95][8]string) []s
 		}
 	}
 	return charArray
+}
+
+func getWords(charArray []string) [][]string {
+	words := make([][]string, len(charArray))
+
+	// Loop through each column in the charArray
+	lastWordEnd := 0
+	for row := range charArray {
+		lastWordEnd = strings.Index(charArray[5], "       ")
+		if lastWordEnd == -1 {
+			words[row] = append(words[row], charArray[row])
+		} else if len(words) < 9 {
+			words[row] = append(words[row], charArray[row][:lastWordEnd])
+		} else {
+			words[row] = append(words[row], charArray[row][lastWordEnd+7:])
+		}
+	}
+
+	// Print each word in words.
+	for _, word := range words {
+		fmt.Println(word)
+	}
+	return words
 }
 
 func getLength(charArray []string) int {
