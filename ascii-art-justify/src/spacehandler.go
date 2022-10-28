@@ -1,23 +1,15 @@
 package asciiart
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-func SpaceHandler(align string, s string, fontArray [95][8]string) []string {
+func SpaceHandler(align string, charArray []string, fontArray [95][8]string) []string {
 	// Get the terminal size
 	_, cols := GetTermSize()
 	// Get the length of the string
-	length := 0
-	for _, c := range s {
-		maxLength := 0
-		for _, line := range GetCharacter(c, fontArray) {
-			if len(line) > maxLength {
-				maxLength = len(line)
-			}
-		}
-		length += maxLength
-	}
-	// Initialize the spaceArray with the correct amount of spaces
-	spaceArray := make([]string, length)
+	length := getLength(charArray)
 	// If the string is too long, return nil
 	if length > cols {
 		fmt.Println("Error: String too long")
@@ -25,25 +17,41 @@ func SpaceHandler(align string, s string, fontArray [95][8]string) []string {
 	}
 	// If the string is too short, add spaces to the spaceArray
 	if length < cols {
-		switch align {
-		case "left":
-			for i := 0; i < cols-length; i++ {
-				spaceArray = append(spaceArray, " ")
+		for i := range charArray {
+			switch align {
+			case "left":
+				for j := 0; j < cols-length; j++ {
+					charArray[i] += " "
+				}
+			case "right":
+				for j := 0; j < cols-length; j++ {
+					charArray[i] = " " + charArray[i]
+				}
+				charArray[i] = " " + strings.TrimSuffix(charArray[i], " ")
+			case "center":
+				for j := 0; j < (cols-length)/2; j++ {
+					charArray[i] = " " + charArray[i]
+				}
+			case "justify":
+				// Separate words from charArray and remove spaces, then get new total length without spaces
+				words := strings.Fields(strings.Join(charArray, ""))
+				length = getLength(words)
+
+			default:
+				fmt.Println("Error: Invalid alignment")
+				return nil
 			}
-		case "right":
-			for i := 0; i < cols-length; i++ {
-				spaceArray = append([]string{" "}, spaceArray...)
-			}
-		case "center":
-			for i := 0; i < (cols-length)/2; i++ {
-				spaceArray = append([]string{" "}, spaceArray...)
-			}
-			for i := 0; i < (cols-length)/2; i++ {
-				spaceArray = append(spaceArray, " ")
-			}
-		default:
-			return nil
 		}
 	}
-	return spaceArray
+	return charArray
+}
+
+func getLength(charArray []string) int {
+	length := 0
+	for _, line := range charArray {
+		if len(line) > length {
+			length = len(line)
+		}
+	}
+	return length
 }
