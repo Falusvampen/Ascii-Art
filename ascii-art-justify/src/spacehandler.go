@@ -11,7 +11,7 @@ func SpaceHandler(align string, charArray []string) []string {
 	_, cols := GetTermSize()
 	// Get the length of the string
 	length := getLength(charArray)
-	getWords(charArray)
+	// getWords(charArray)
 	// If the string is too long, return nil
 	if length > cols {
 		fmt.Println("Error: String too long")
@@ -55,7 +55,7 @@ func spaceDetector(line string) string {
 	for i := 0; i < nice; i++ {
 		spaces += " "
 	}
-	line = strings.Replace(line, "#", spaces, 1)
+	// line = strings.Replace(line, "#", spaces, 1)
 	return line
 }
 
