@@ -6,6 +6,7 @@ import (
 )
 
 func SpaceHandler(align string, charArray []string) []string {
+
 	// Get the terminal size
 	_, cols := GetTermSize()
 	// Get the length of the string
@@ -21,9 +22,10 @@ func SpaceHandler(align string, charArray []string) []string {
 		for i := range charArray {
 			switch align {
 			case "left":
-				for j := 0; j < cols-length; j++ {
-					charArray[i] += " "
-				}
+				// ???
+				// for j := 0; j < cols-length; j++ {
+				// 	charArray[i] += " "
+				// }
 			case "right":
 				for j := 0; j < cols-length; j++ {
 					charArray[i] = " " + charArray[i]
@@ -34,7 +36,7 @@ func SpaceHandler(align string, charArray []string) []string {
 					charArray[i] = " " + charArray[i]
 				}
 			case "justify":
-
+				charArray[i] = spaceDetector(charArray[i])
 			default:
 				fmt.Println("Error: Invalid alignment")
 				return nil
@@ -42,6 +44,19 @@ func SpaceHandler(align string, charArray []string) []string {
 		}
 	}
 	return charArray
+}
+
+func spaceDetector(line string) string {
+	_, cols := GetTermSize()
+	line = strings.Replace(line, "       ", "#", 1)
+	strLen := len(line)
+	nice := cols - strLen
+	spaces := ""
+	for i := 0; i < nice; i++ {
+		spaces += " "
+	}
+	line = strings.Replace(line, "#", spaces, 1)
+	return line
 }
 
 func getWords(charArray []string) [][]string {
