@@ -6,8 +6,8 @@ import (
 )
 
 // 95 is the amount of characters in the font and 8 is the amount of lines in the font
-func GetFont(font string) ([95][8]string, error) {
-	var fontArray = [95][8]string{}
+func GetFont(font string) ([95][AsciiCharHeight]string, error) {
+	var fontArray = [95][AsciiCharHeight]string{}
 
 	// If font argument is a shortcut, provide it with a path
 	fonts := []string{"standard", "shadow", "thinkertoy"}
@@ -20,7 +20,7 @@ func GetFont(font string) ([95][8]string, error) {
 
 	file, err := os.Open(font)
 	if err != nil {
-		return [95][8]string{}, err
+		return [95][AsciiCharHeight]string{}, err
 	}
 	scanner := bufio.NewScanner(file)
 	currentChar := -1 // Font starts with an empty line, so we need to start at -1
@@ -39,7 +39,7 @@ func GetFont(font string) ([95][8]string, error) {
 	}
 	if err := scanner.Err(); err != nil {
 		file.Close()
-		return [95][8]string{}, err
+		return [95][AsciiCharHeight]string{}, err
 	}
 
 	err = file.Close()

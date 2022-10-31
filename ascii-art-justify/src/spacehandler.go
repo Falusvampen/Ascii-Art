@@ -9,8 +9,13 @@ func SpaceHandler(align string, charArray []string) []string {
 
 	// Get the terminal size
 	_, cols := GetTermSize()
+
 	// Get the length of the string
-	length := getLength(charArray)
+	// ??
+	// length := getLength(charArray)
+	length := len(charArray[0])
+	// fmt.Println(len(charArray[0]))
+
 	// getWords(charArray)
 	// If the string is too long, return nil
 	if length > cols {
@@ -21,11 +26,12 @@ func SpaceHandler(align string, charArray []string) []string {
 	if length < cols {
 		for i := range charArray {
 			switch align {
+			// Left is already aligned
 			case "left":
-				// ???
-				// for j := 0; j < cols-length; j++ {
-				// 	charArray[i] += " "
-				// }
+			// ???
+			// for j := 0; j < cols-length; j++ {
+			// 	charArray[i] += " "
+			// }
 			case "right":
 				for j := 0; j < cols-length; j++ {
 					charArray[i] = " " + charArray[i]
@@ -36,7 +42,8 @@ func SpaceHandler(align string, charArray []string) []string {
 					charArray[i] = " " + charArray[i]
 				}
 			case "justify":
-				charArray[i] = spaceDetector(charArray[i])
+				charArray[i] = strings.ReplaceAll(charArray[i], "      ", "#")
+			// charArray[i] = spaceDetector(charArray[i])
 			default:
 				fmt.Println("Error: Invalid alignment")
 				return nil
@@ -46,17 +53,33 @@ func SpaceHandler(align string, charArray []string) []string {
 	return charArray
 }
 
-func spaceDetector(line string) string {
-	_, cols := GetTermSize()
-	line = strings.Replace(line, "       ", "#", 1)
-	strLen := len(line)
-	nice := cols - strLen
-	spaces := ""
-	for i := 0; i < nice; i++ {
-		spaces += " "
+// func spaceDetector(line string) string {
+// 	_, cols := GetTermSize()
+// 	line = strings.Replace(line, "       ", "#", 1)
+// 	strLen := len(line)
+// 	nice := cols - strLen
+// 	spaces := ""
+// 	for i := 0; i < nice; i++ {
+// 		spaces += " "
+// 	}
+// 	// line = strings.Replace(line, "#", spaces, 1)
+// 	return line
+// }
+// take in two strings and one int as arguments
+
+func spaceDetector(align string, line string, amountOfWords int, length int) string {
+
+	if align == "justify" {
+		_, lines := GetTermSize()
+		nice := (lines - length) / amountOfWords
+		spaces := ""
+		for i := 0; i < nice; i++ {
+			spaces += " "
+		}
+		return line
+	} else {
+		return line
 	}
-	// line = strings.Replace(line, "#", spaces, 1)
-	return line
 }
 
 func getWords(charArray []string) [][]string {
@@ -82,12 +105,13 @@ func getWords(charArray []string) [][]string {
 	return words
 }
 
-func getLength(charArray []string) int {
-	length := 0
-	for _, line := range charArray {
-		if len(line) > length {
-			length = len(line)
-		}
-	}
-	return length
-}
+// Not needed
+// func getLength(charArray []string) int {
+// 	length := 0
+// 	for _, line := range charArray {
+// 		if len(line) > length {
+// 			length = len(line)
+// 		}
+// 	}
+// 	return length
+// }

@@ -1,11 +1,10 @@
 package main
 
 import (
+	asciiart "asciiart/src"
 	"fmt"
 	"os"
 	"strings"
-
-	asciiart "asciiart/src"
 )
 
 func main() {
